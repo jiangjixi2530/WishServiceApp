@@ -1,0 +1,8 @@
+﻿<?xml version="1.0"?>
+<ArrayOfXmlConfigItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <XmlConfigItem>
+    <Key>RfidReadConfig</Key>
+    <Value><![CDATA[<?xml version="1.0"?>
+<RfidReadConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ComPort="COM3" Baudrate="115200" AntennaOne="true" AntennaTwo="false" AntennaThree="false" AntennaFour="false" />]]></Value>
+  </XmlConfigItem>
+</ArrayOfXmlConfigItem>
