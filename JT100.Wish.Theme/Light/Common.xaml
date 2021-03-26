@@ -1,0 +1,16 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:o="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options">
+    <!--菜单背景色-->
+    <SolidColorBrush x:Key="WishControlBorderColor"
+                     o:Freeze="true"
+                     Color="#001125" />
+    <!--大模块之间的分割线-->
+    <SolidColorBrush x:Key="WishControlBorderColor"
+                     o:Freeze="true"
+                     Color="#001125" />
+    <!--元素之间的分割线-->
+    <SolidColorBrush x:Key="WishElementBorderColor"
+                     o:Freeze="true"
+                     Color="#0B233E" />
+</ResourceDictionary>

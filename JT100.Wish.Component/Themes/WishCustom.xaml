@@ -1,0 +1,247 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:JT100.Wish.Component"
+                    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/JT100.Wish.Component;component/CommonStyle/Generic.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    <local:BoolToVisiblity x:Key="BoolToVisiblity" />
+    <local:ReverseBoolToVisiblity x:Key="ReverseBoolToVisiblity" />
+    <Style TargetType="{x:Type local:WishCustom}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:WishCustom}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Border Grid.Row="1"
+                                Visibility="{Binding ShowCustomList,RelativeSource={RelativeSource AncestorType={x:Type local:WishCustom}},Converter={StaticResource BoolToVisiblity}}">
+                            <DataGrid x:Name="Part_DataGrid"
+                                      AutoGenerateColumns="False"
+                                      CanUserAddRows="False"
+                                      CanUserDeleteRows="False"
+                                      ColumnWidth="*"
+                                      FontSize="16"
+                                      HeadersVisibility="Column"
+                                      GridLinesVisibility="All"
+                                      HorizontalGridLinesBrush="#EEEEEE"
+                                      VerticalGridLinesBrush="#EEEEEE"
+                                      SelectionUnit="FullRow"
+                                      SelectionMode="Single"
+                                      ItemsSource="{Binding CustomSource,RelativeSource={RelativeSource AncestorType=local:WishCustom}}">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Header="序号"
+                                                            CanUserSort="False"
+                                                            CanUserResize="False">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Index}"
+                                                           HorizontalAlignment="Left"
+                                                           VerticalAlignment="Center" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="客户名称"
+                                                            CanUserSort="False"
+                                                            CanUserResize="False">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding CustomName}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="酒店名称"
+                                                            CanUserSort="False"
+                                                            CanUserResize="False">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding StoreName}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="酒店地址"
+                                                            CanUserSort="False"
+                                                            CanUserResize="False">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Address}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="操作"
+                                                            CanUserSort="False"
+                                                            CanUserResize="False">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Button Content="新增出库单"
+                                                            Command="{Binding TransferWare,RelativeSource={RelativeSource AncestorType=local:WishCustom}}"
+                                                            CommandParameter="{Binding Id}"
+                                                            Margin="0,0" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="查询"
+                                                            CanUserSort="False"
+                                                            CanUserResize="False">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Button Content="历史出库单"
+                                                            Command="{Binding ShowOutWareOrder,RelativeSource={RelativeSource AncestorType=local:WishCustom}}"
+                                                            CommandParameter="{Binding Id}"
+                                                            Margin="0,0" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Border>
+                        <Border Grid.Row="1"
+                                Visibility="{Binding ShowCustomList,RelativeSource={RelativeSource AncestorType={x:Type local:WishCustom}},Converter={StaticResource ReverseBoolToVisiblity}}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Orientation="Horizontal"
+                                            Height="40">
+                                    <TextBlock Text="{Binding SelectedCustom.CustomName,RelativeSource={RelativeSource AncestorType={x:Type local:WishCustom}}}"
+                                               FontSize="16"
+                                               VerticalAlignment="Center" />
+                                    <TextBlock Margin="20,0"
+                                               Text="{Binding SelectedCustom.StoreName,RelativeSource={RelativeSource AncestorType={x:Type local:WishCustom}}}"
+                                               FontSize="16"
+                                               VerticalAlignment="Center" />
+                                    <TextBlock Margin="20,0"
+                                               Text="{Binding SelectedCustom.Address,RelativeSource={RelativeSource AncestorType={x:Type local:WishCustom}}}"
+                                               FontSize="16"
+                                               VerticalAlignment="Center" />
+                                    <TextBlock Margin="20,0"
+                                               Text="已识别总数量："
+                                               FontSize="16"
+                                               VerticalAlignment="Center" />
+                                    <TextBlock Margin="0,0"
+                                               Text="{Binding TotalCount,RelativeSource={RelativeSource AncestorType={x:Type local:WishCustom}}}"
+                                               FontSize="16"
+                                               VerticalAlignment="Center" />
+                                </StackPanel>
+                                <Button Content="返回"
+                                        Grid.Column="1"
+                                        Height="30"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Margin="0,0,10,0"
+                                        Command="{Binding GoBack,RelativeSource={RelativeSource AncestorType={x:Type local:WishCustom}}}"
+                                        FontSize="16" />
+                                <DataGrid AutoGenerateColumns="False"
+                                          CanUserAddRows="False"
+                                          CanUserDeleteRows="False"
+                                          ColumnWidth="*"
+                                          FontSize="16"
+                                          Grid.Row="1"
+                                          Grid.ColumnSpan="2"
+                                          HeadersVisibility="Column"
+                                          GridLinesVisibility="All"
+                                          HorizontalGridLinesBrush="#EEEEEE"
+                                          VerticalGridLinesBrush="#EEEEEE"
+                                          SelectionUnit="FullRow"
+                                          SelectionMode="Single"
+                                          ItemsSource="{Binding WareOutDetailSource,RelativeSource={RelativeSource AncestorType=local:WishCustom}}">
+                                    <DataGrid.Columns>
+                                        <DataGridTemplateColumn Header="序号"
+                                                                CanUserSort="False"
+                                                                CanUserResize="False">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Index}"
+                                                               HorizontalAlignment="Left"
+                                                               VerticalAlignment="Center" />
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Header="布草类型"
+                                                                CanUserSort="False"
+                                                                CanUserResize="False">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding WareTypeName}" />
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Header="阈值"
+                                                                CanUserSort="False"
+                                                                CanUserResize="False">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Capacity}" />
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Header="库存基数"
+                                                                CanUserSort="False"
+                                                                CanUserResize="False">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Stock}" />
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Header="最大可出库数量"
+                                                                CanUserSort="False"
+                                                                CanUserResize="False">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding MaxCount}" />
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Header="已匹配数量"
+                                                                CanUserSort="False"
+                                                                CanUserResize="False">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Foreground="Green"
+                                                               Text="{Binding RfidCount}" />
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                                <Border Grid.Row="2"
+                                        Grid.ColumnSpan="2">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Button Margin="0,10,10,10"
+                                                Content="匹配物料类型"
+                                                HorizontalAlignment="Right"
+                                                FontSize="16"
+                                                Command="{Binding MatchWareType,RelativeSource={RelativeSource AncestorType={x:Type local:WishCustom}}}" />
+                                        <Button Margin="10,10,0,10"
+                                                Content="生成出库单"
+                                                Grid.Column="1"
+                                                HorizontalAlignment="Left"
+                                                FontSize="16"
+                                                Command="{Binding CreateOutOrder,RelativeSource={RelativeSource AncestorType={x:Type local:WishCustom}}}" />
+                                    </Grid>
+                                </Border>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

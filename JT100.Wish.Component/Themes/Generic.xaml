@@ -1,0 +1,11 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:JT100.Wish.Component">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/JT100.Wish.Component;component/Themes/RfidBinding.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/JT100.Wish.Component;component/Themes/RfidReadSet.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/JT100.Wish.Component;component/Themes/OrderCheckView.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/JT100.Wish.Component;component/Themes/WishCustom.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/JT100.Wish.Component;component/Themes/RfidQrCodeBind.xaml" /> 
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>
