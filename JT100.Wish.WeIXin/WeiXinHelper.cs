@@ -76,34 +76,28 @@ namespace JT100.Wish.WeiXin
             JObject msgObject = new JObject();
             msgObject["touser"] = message.ToUser;
             msgObject["template_id"] = TemplateIds[message.MessageType];
-            JArray array = new JArray();
-            JObject firstObj = new JObject();
-            firstObj["first"] = message.Title.ToJObject();
-            array.Add(firstObj);
+            JObject data = new JObject();
+            msgObject["data"] = data;
+            data["first"] = message.Title.ToJObject();
             for (int i = 0; i < message.Msgs.Count; i++)
             {
                 string key = "keyword" + (i + 1).ToString();
-                JObject obj = new JObject();
-                obj[key] = message.Msgs[i].ToJObject();
-                array.Add(obj);
+                data[key] = message.Msgs[i].ToJObject();
             }
-            JObject remarkObj = new JObject();
-            remarkObj["remark"] = message.Remark.ToJObject();
-            array.Add(remarkObj);
-            msgObject["data"] = array;
+            data["remark"] = message.Remark.ToJObject();
             Dictionary<string, object> dict = new Dictionary<string, object>();
             dict["access_token"] = Token.Token;
             try
             {
                 var result = HttpPost(SendTemplateMsgUrl, JsonConvert.SerializeObject(msgObject), dict);
                 JObject resultObj = JsonConvert.DeserializeObject<JObject>(result);
-                if (remarkObj["errmsg"].ToString().ToUpper() == "OK")
+                if (resultObj["errmsg"].ToString().ToUpper() == "OK")
                 {
                     return SendMessageResult.ToSuccess();
                 }
                 else
                 {
-                    return SendMessageResult.ToFail(remarkObj["errmsg"].ToString());
+                    return SendMessageResult.ToFail(resultObj["errmsg"].ToString());
                 }
             }
             catch (Exception ex)

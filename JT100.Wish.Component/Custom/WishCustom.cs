@@ -161,7 +161,6 @@ namespace JT100.Wish.Component
             {
                 WareOutDetailSource.Add(new WareOutDetailVM() { Index = index++, WareTypeId = wareInfo.WareTypeId, WareTypeName = wareInfo.WareTypeName, Capacity = wareInfo.Capacity, Stock = wareInfo.Stock, MaxCount = wareInfo.Capacity - wareInfo.Stock });
             }
-            var result = WeiXin.WeiXinHelper.SendBalanceChanged("oZj5R6gdMGjC8yffq_18P1_Q_Wlg", "您的账户余额发生变动啦", "消费扣款", "12.00元", "787.00元", "吉之住酒店", DateTime.Now.ToString("yyyy-MM-dd HH:mm"), "若需要帮助，可联系客服");
         }
 
         private void RfidReadProvider_OnDataReceived(object o, string epc)
