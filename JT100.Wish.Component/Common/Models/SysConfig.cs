@@ -9,6 +9,6 @@ namespace JT100.Wish.Component.Common.Models
     public class SysConfig
     {
         [XmlAttribute("ServerUrl")]
-        public string ServerUrl { get; set; }
+        public string ServerUrl { get; set; } 
     }
 }

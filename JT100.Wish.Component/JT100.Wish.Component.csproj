@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\JT100.Wish.Core\JT100.Wish.Core.csproj" />
+    <ProjectReference Include="..\JT100.Wish.WeIXin\JT100.Wish.WeIXin.csproj" />
   </ItemGroup>
 
   <ItemGroup>

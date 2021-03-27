@@ -161,6 +161,18 @@ namespace JT100.Wish.Component
             {
                 WareOutDetailSource.Add(new WareOutDetailVM() { Index = index++, WareTypeId = wareInfo.WareTypeId, WareTypeName = wareInfo.WareTypeName, Capacity = wareInfo.Capacity, Stock = wareInfo.Stock, MaxCount = wareInfo.Capacity - wareInfo.Stock });
             }
+            WeIXin.Message message = new WeIXin.Message();
+            message.ToUser = "oZj5R6gdMGjC8yffq_18P1_Q_Wlg";
+            message.MessageType = WeIXin.MessageType.BalanceChanged;
+            message.Title = new WeIXin.MessageModel() { Text = "您的账户余额发生变动啦", ColorBrush = "#173177" };
+            message.Msgs = new List<WeIXin.MessageModel>();
+            message.Msgs.Add(new WeIXin.MessageModel() { Text = "消费扣款", ColorBrush = "#173177" });
+            message.Msgs.Add(new WeIXin.MessageModel() { Text = "12.00元", ColorBrush = "#173177" });
+            message.Msgs.Add(new WeIXin.MessageModel() { Text = "787.00元", ColorBrush = "#173177" });
+            message.Msgs.Add(new WeIXin.MessageModel() { Text = "吉之住酒店", ColorBrush = "#173177" });
+            message.Msgs.Add(new WeIXin.MessageModel() { Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm"), ColorBrush = "#173177" });
+            message.Remark = new WeIXin.MessageModel() { Text = "若需要帮助，可联系客服", ColorBrush = "#173177" };
+            var result = WeIXin.WeiXinHelper.SendMessage(message).Result;
         }
 
         private void RfidReadProvider_OnDataReceived(object o, string epc)

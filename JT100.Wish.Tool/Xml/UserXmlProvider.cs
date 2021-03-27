@@ -40,7 +40,14 @@ namespace JT100.Wish.Tool
                     File.Create(_userConfigPath);
                 }
                 string content = File.ReadAllText(_userConfigPath);
-                _xmlConfigDic = this.Deserialize<List<XmlConfigItem>>(content).ToDictionary(_ => _.Key);
+                if (string.IsNullOrEmpty(content))
+                {
+                    _xmlConfigDic = this.Deserialize<List<XmlConfigItem>>(content).ToDictionary(_ => _.Key);
+                }
+                else
+                {
+                    _xmlConfigDic = new Dictionary<string, XmlConfigItem>();
+                }
             }
             catch (Exception)
             {
