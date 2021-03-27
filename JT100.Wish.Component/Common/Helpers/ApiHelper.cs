@@ -248,5 +248,27 @@ namespace JT100.Wish.Component
                 return ApiResult<string>.ToFail(ex.Message);
             }
         }
+
+        /// <summary>
+        /// 标签二维码绑定
+        /// </summary>
+        /// <param name="sn"></param>
+        /// <param name="qrCode"></param>
+        /// <returns></returns>
+        public ApiResult<string> BindWareSNCode(string sn,string qrCode)
+        {
+            try
+            {
+                JObject jObject = new JObject();
+                jObject["token"] = Token;
+                jObject["wareCodes"] = qrCode;
+                jObject["wareSNCodes"] = sn;
+                return ApiManager.HttpPost<string>(ServerUrl + "/api/Ware/BindWareSNCode", JsonConvert.SerializeObject(jObject));
+            }
+            catch (Exception ex)
+            {
+                return ApiResult<string>.ToFail(ex.Message);
+            }
+        }
     }
 }

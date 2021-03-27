@@ -38,6 +38,53 @@
                                      VerticalAlignment="Center"
                                      TextAlignment="Left" />
                         </StackPanel>
+                        <DataGrid AutoGenerateColumns="False"
+                                  CanUserAddRows="False"
+                                  CanUserDeleteRows="False"
+                                  ColumnWidth="*"
+                                  FontSize="16"
+                                  Grid.Row="1"
+                                  Grid.ColumnSpan="2"
+                                  HeadersVisibility="Column"
+                                  GridLinesVisibility="All"
+                                  HorizontalGridLinesBrush="#EEEEEE"
+                                  VerticalGridLinesBrush="#EEEEEE"
+                                  SelectionUnit="FullRow"
+                                  SelectionMode="Single"
+                                  ItemsSource="{Binding DataSource,RelativeSource={RelativeSource AncestorType=local:RfidQrCodeBind}}">
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Header="序号"
+                                                        Width="100"
+                                                        CanUserSort="False"
+                                                        CanUserResize="False">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Index}"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="SN号"
+                                                        CanUserSort="False"
+                                                        CanUserResize="False">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding SN}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="二维码地址"
+                                                        CanUserSort="False"
+                                                        CanUserResize="False">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding QrCode}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

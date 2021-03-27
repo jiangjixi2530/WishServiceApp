@@ -40,7 +40,7 @@ namespace JT100.Wish.Tool
                     File.Create(_userConfigPath);
                 }
                 string content = File.ReadAllText(_userConfigPath);
-                if (string.IsNullOrEmpty(content))
+                if (!string.IsNullOrEmpty(content))
                 {
                     _xmlConfigDic = this.Deserialize<List<XmlConfigItem>>(content).ToDictionary(_ => _.Key);
                 }
