@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT100.Wish.Theme", "JT100.W
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT100.Wish.Component", "JT100.Wish.Component\JT100.Wish.Component.csproj", "{EFD42932-9AD6-4B36-ABF0-06AE52F0DBF0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JT100.Wish.WeIXin", "JT100.Wish.WeIXin\JT100.Wish.WeIXin.csproj", "{B0230EDA-EF08-4B12-B34A-A569F184986A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{EFD42932-9AD6-4B36-ABF0-06AE52F0DBF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFD42932-9AD6-4B36-ABF0-06AE52F0DBF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFD42932-9AD6-4B36-ABF0-06AE52F0DBF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0230EDA-EF08-4B12-B34A-A569F184986A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0230EDA-EF08-4B12-B34A-A569F184986A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0230EDA-EF08-4B12-B34A-A569F184986A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0230EDA-EF08-4B12-B34A-A569F184986A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,9 +1,8 @@
-﻿using JT100.Wish.Core;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace JT100.Wish.Component
+namespace JT100.Wish.WeIXin
 {
     public class WeiXinHelper
     {
