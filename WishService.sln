@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT100.Wish.Theme", "JT100.W
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT100.Wish.Component", "JT100.Wish.Component\JT100.Wish.Component.csproj", "{EFD42932-9AD6-4B36-ABF0-06AE52F0DBF0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JT100.Wish.WeIXin", "JT100.Wish.WeIXin\JT100.Wish.WeIXin.csproj", "{B0230EDA-EF08-4B12-B34A-A569F184986A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JT100.Wish.WeiXin", "JT100.Wish.WeIXin\JT100.Wish.WeiXin.csproj", "{B0230EDA-EF08-4B12-B34A-A569F184986A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

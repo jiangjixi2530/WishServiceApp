@@ -8,7 +8,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JT100.Wish.WeIXin
+namespace JT100.Wish.WeiXin
 {
     public class WeiXinHelper
     {
@@ -27,10 +27,10 @@ namespace JT100.Wish.WeIXin
             TemplateIds = new Dictionary<MessageType, string>();
             TemplateIds.Add(MessageType.BalanceNotEnough, "-Uh1QrzRflCRkQteVu-hMzUCrmj6iucSO0L_del6DtI");
             TemplateIds.Add(MessageType.ProductCollect, "129HxLdpoj1cAPfJqMwu5LfC3orOJvlOYNzKI2mW97c");
-            TemplateIds.Add(MessageType.OrderDelivery, "Sop4fyd8aYZV73wp-NML7L_IgvLFnUNrsAlWiC9HAXo");
+            TemplateIds.Add(MessageType.OrderSignFor, "Sop4fyd8aYZV73wp-NML7L_IgvLFnUNrsAlWiC9HAXo");
             TemplateIds.Add(MessageType.BalanceChanged, "jRoIVxcihzHirG-x_z72AavdiEjUfw6-r4YHdiFfBIY");
             TemplateIds.Add(MessageType.BalanceCharged, "m2wfUuCri5HVpW6aoc4dHO55GPm623ohpAitB85P1y8");
-            TemplateIds.Add(MessageType.BalanceCharged, "vKfqUEMP84KS9tSC-EohDyoTUowmAALRdg7eYXgz1SY");
+            TemplateIds.Add(MessageType.OrderDelivery, "vKfqUEMP84KS9tSC-EohDyoTUowmAALRdg7eYXgz1SY");
             Token = new TokenControl() { InvalidTime = DateTime.Now };
         }
 
@@ -62,12 +62,12 @@ namespace JT100.Wish.WeIXin
         /// 发送模板消息
         /// </summary>
         /// <param name="message"></param>
-        public static async Task<SendMessageResult> SendMessage(Message message)
+        internal static SendMessageResult SendMessage(Message message)
         {
             //如果失效 重新获取Token
             if (Token.InvalidTime.Subtract(DateTime.Now).TotalSeconds < 30)
             {
-                await Task.Run(() => GetToken());
+                GetToken();
             }
             if (!TemplateIds.ContainsKey(message.MessageType))
             {
@@ -93,16 +93,196 @@ namespace JT100.Wish.WeIXin
             msgObject["data"] = array;
             Dictionary<string, object> dict = new Dictionary<string, object>();
             dict["access_token"] = Token.Token;
-            var result = await Task.Run(() => HttpPost(SendTemplateMsgUrl, JsonConvert.SerializeObject(msgObject), dict));
-            JObject resultObj = JsonConvert.DeserializeObject<JObject>(result);
-            if (remarkObj["errmsg"].ToString().ToUpper() == "OK")
+            try
             {
-                return SendMessageResult.ToSuccess();
+                var result = HttpPost(SendTemplateMsgUrl, JsonConvert.SerializeObject(msgObject), dict);
+                JObject resultObj = JsonConvert.DeserializeObject<JObject>(result);
+                if (remarkObj["errmsg"].ToString().ToUpper() == "OK")
+                {
+                    return SendMessageResult.ToSuccess();
+                }
+                else
+                {
+                    return SendMessageResult.ToFail(remarkObj["errmsg"].ToString());
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return SendMessageResult.ToFail(remarkObj["errmsg"].ToString());
+
+                return SendMessageResult.ToFail(ex.Message);
             }
+        }
+
+        /// <summary>
+        /// 余额不足推送
+        /// </summary>
+        /// <param name="toUser">微信用户唯一Id</param>
+        /// <param name="Title">标题 first.DATA</param>
+        /// <param name="storeName">商户名称</param>
+        /// <param name="account">账户</param>
+        /// <param name="balance">账户余额</param>
+        /// <param name="serviceName">客服专员</param>
+        /// <param name="servicePhone">客服电话</param>
+        /// <param name="remark">备注</param>
+        /// <param name="url">跳转链接，可不传</param>
+        /// <returns></returns>
+        public static async Task<SendMessageResult> SendBalanceNotEnough(string toUser, string Title, string storeName, string account, string balance, string serviceName, string servicePhone, string remark, string url = null)
+        {
+            Message msg = new Message();
+            msg.ToUser = toUser;
+            msg.MessageType = MessageType.BalanceNotEnough;
+            msg.Title = new MessageModel(Title);
+            msg.Msgs = new List<MessageModel>();
+            msg.Msgs.Add(new MessageModel(storeName));
+            msg.Msgs.Add(new MessageModel(account));
+            msg.Msgs.Add(new MessageModel(balance));
+            msg.Msgs.Add(new MessageModel(serviceName));
+            msg.Msgs.Add(new MessageModel(servicePhone));
+            msg.Url = url;
+            msg.Remark = new MessageModel(remark);
+            return await Task.Run(() => SendMessage(msg));
+        }
+
+        /// <summary>
+        /// 商品揽收推送
+        /// </summary>
+        /// <param name="toUser">微信用户唯一Id</param>
+        /// <param name="Title">标题</param>
+        /// <param name="orderNo">订单号</param>
+        /// <param name="productInfo">商品信息</param>
+        /// <param name="telephone">收货电话</param>
+        /// <param name="address">收货地址</param>
+        /// <param name="status">物流状态</param>
+        /// <param name="remark">备注</param>
+        /// <param name="url">跳转URL 可为空</param>
+        /// <returns></returns>
+        public static async Task<SendMessageResult> SendProductCollect(string toUser, string Title, string orderNo, string productInfo, string telephone, string address, string status, string remark, string url = null)
+        {
+            Message msg = new Message();
+            msg.ToUser = toUser;
+            msg.MessageType = MessageType.ProductCollect;
+            msg.Title = new MessageModel(Title);
+            msg.Msgs = new List<MessageModel>();
+            msg.Msgs.Add(new MessageModel(orderNo));
+            msg.Msgs.Add(new MessageModel(productInfo));
+            msg.Msgs.Add(new MessageModel(telephone));
+            msg.Msgs.Add(new MessageModel(address));
+            msg.Msgs.Add(new MessageModel(status));
+            msg.Url = url;
+            msg.Remark = new MessageModel(remark);
+            return await Task.Run(() => SendMessage(msg));
+        }
+
+        /// <summary>
+        /// 订单签收推送
+        /// </summary>
+        /// <param name="toUser">微信用户唯一Id</param>
+        /// <param name="Title">标题</param>
+        /// <param name="orderNo">订单号</param>
+        /// <param name="productInfo">商品信息</param>
+        /// <param name="deliveryMode">配送方式</param>
+        /// <param name="deliveryTime">签收时间</param>
+        /// <param name="remark">备注</param>
+        /// <param name="url">跳转URL 可为空</param>
+        /// <returns></returns>
+        public static async Task<SendMessageResult> SendOrderSignFor(string toUser, string Title, string orderNo, string productInfo, string deliveryMode, string deliveryTime, string remark, string url = null)
+        {
+            Message msg = new Message();
+            msg.ToUser = toUser;
+            msg.MessageType = MessageType.OrderSignFor;
+            msg.Title = new MessageModel(Title);
+            msg.Msgs = new List<MessageModel>();
+            msg.Msgs.Add(new MessageModel(orderNo));
+            msg.Msgs.Add(new MessageModel(productInfo));
+            msg.Msgs.Add(new MessageModel(deliveryMode));
+            msg.Msgs.Add(new MessageModel(deliveryTime));
+            msg.Url = url;
+            msg.Remark = new MessageModel(remark);
+            return await Task.Run(() => SendMessage(msg));
+        }
+
+        /// <summary>
+        /// 余额变动提醒
+        /// </summary>
+        /// <param name="toUser">微信用户唯一Id</param>
+        /// <param name="Title">标题</param>
+        /// <param name="changeType">变动类型</param>
+        /// <param name="changeAmount">变动金额</param>
+        /// <param name="balance">卡上余额</param>
+        /// <param name="changeStore">变动门店</param>
+        /// <param name="changeTime">变动时间</param>
+        /// <param name="remark">备注</param>
+        /// <param name="url">跳转URL 可为空</param>
+        /// <returns></returns>
+        public static async Task<SendMessageResult> SendBalanceChanged(string toUser, string Title, string changeType, string changeAmount, string balance, string changeStore, string changeTime, string remark, string url = null)
+        {
+            Message msg = new Message();
+            msg.ToUser = toUser;
+            msg.MessageType = MessageType.BalanceChanged;
+            msg.Title = new MessageModel(Title);
+            msg.Msgs = new List<MessageModel>();
+            msg.Msgs.Add(new MessageModel(changeType));
+            msg.Msgs.Add(new MessageModel(changeAmount));
+            msg.Msgs.Add(new MessageModel(balance));
+            msg.Msgs.Add(new MessageModel(changeStore));
+            msg.Msgs.Add(new MessageModel(changeTime));
+            msg.Url = url;
+            msg.Remark = new MessageModel(remark);
+            return await Task.Run(() => SendMessage(msg));
+        }
+
+        /// <summary>
+        /// 会员充值到账推送
+        /// </summary>
+        /// <param name="toUser">微信用户唯一Id</param>
+        /// <param name="Title">标题</param>
+        /// <param name="storeName">酒店名称</param>
+        /// <param name="account">会员卡号</param>
+        /// <param name="chargeAmount">到账金额</param>
+        /// <param name="remark">备注</param>
+        /// <param name="url">跳转URL 可为空</param>
+        /// <returns></returns>
+        public static async Task<SendMessageResult> SendBalanceCharged(string toUser, string Title, string storeName, string account, string chargeAmount, string remark, string url = null)
+        {
+            Message msg = new Message();
+            msg.ToUser = toUser;
+            msg.MessageType = MessageType.BalanceCharged;
+            msg.Title = new MessageModel(Title);
+            msg.Msgs = new List<MessageModel>();
+            msg.Msgs.Add(new MessageModel(storeName));
+            msg.Msgs.Add(new MessageModel(account));
+            msg.Msgs.Add(new MessageModel(chargeAmount));
+            msg.Url = url;
+            msg.Remark = new MessageModel(remark);
+            return await Task.Run(() => SendMessage(msg));
+        }
+
+        /// <summary>
+        /// 出库成功推送
+        /// </summary>
+        /// <param name="toUser">微信用户唯一Id</param>
+        /// <param name="Title">标题</param>
+        /// <param name="orderNo">出库单号</param>
+        /// <param name="storeName">发货公司</param>
+        /// <param name="productInfo">商品数量</param>
+        /// <param name="deliveryTime">业务日期</param>
+        /// <param name="remark">备注</param>
+        /// <param name="url">跳转URL 可为空</param>
+        /// <returns></returns>
+        public static async Task<SendMessageResult> SendOrderDelivery(string toUser, string Title, string orderNo, string storeName, string productInfo, string deliveryTime, string remark, string url = null)
+        {
+            Message msg = new Message();
+            msg.ToUser = toUser;
+            msg.MessageType = MessageType.OrderDelivery;
+            msg.Title = new MessageModel(Title);
+            msg.Msgs = new List<MessageModel>();
+            msg.Msgs.Add(new MessageModel(orderNo));
+            msg.Msgs.Add(new MessageModel(storeName));
+            msg.Msgs.Add(new MessageModel(productInfo));
+            msg.Msgs.Add(new MessageModel(deliveryTime));
+            msg.Url = url;
+            msg.Remark = new MessageModel(remark);
+            return await Task.Run(() => SendMessage(msg));
         }
 
         /// <summary>
@@ -231,6 +411,10 @@ namespace JT100.Wish.WeIXin
     /// </summary>
     public class MessageModel
     {
+        public MessageModel(string text)
+        {
+            Text = text;
+        }
         /// <summary>
         /// 文本
         /// </summary>
@@ -240,7 +424,7 @@ namespace JT100.Wish.WeIXin
         /// 显示的字体颜色
         /// <para>示例：#173177</para>
         /// </summary>
-        public string ColorBrush { get; set; }
+        public string ColorBrush { get; set; } = "#173177";
 
         public JObject ToJObject(string key = null)
         {
