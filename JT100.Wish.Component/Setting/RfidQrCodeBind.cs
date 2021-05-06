@@ -49,6 +49,7 @@ namespace JT100.Wish.Component
                 var qrCode = _txtQrCode.Text;
                 if (!string.IsNullOrEmpty(qrCode) && !string.IsNullOrEmpty(lastRfid))
                 {
+                    _txtQrCode.SelectAll();
                     var result = await Task.Run(() => UserContext.ApiHelper.BindWareSNCode(lastRfid, qrCode));
                     if (result.Success)
                     {
@@ -58,10 +59,6 @@ namespace JT100.Wish.Component
                         vm.QrCode = qrCode;
                         lastRfid = null;
                         _txtQrCode.Text = string.Empty;
-                    }
-                    else
-                    {
-                        _txtQrCode.SelectAll();
                     }
                 }
             }
