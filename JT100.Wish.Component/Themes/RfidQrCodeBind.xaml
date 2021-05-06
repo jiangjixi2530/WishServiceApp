@@ -37,6 +37,7 @@
                                      Width="400"
                                      VerticalAlignment="Center"
                                      TextAlignment="Left" />
+                            <Button Content="手动输入模式" Height="30" HorizontalAlignment="Right" Margin="40,0"/>
                         </StackPanel>
                         <DataGrid AutoGenerateColumns="False"
                                   CanUserAddRows="False"
