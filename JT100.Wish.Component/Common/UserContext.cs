@@ -11,10 +11,12 @@ namespace JT100.Wish.Component
     {
         static UserContext()
         {
+            LogHelper.WriteLog(LogType.BASE, "初始化");
             UserContext.UserXmlProvider = new UserXmlProvider();
             UserContext.RfidReadProvider = new RfidReadProvider();
             UserContext.ApiHelper = new ApiHelper(UserXmlProvider.GetSysConfig<SysConfig>().ServerUrl);
             var readConfig = UserXmlProvider.GetConfig<RfidReadConfig>("RfidReadConfig");
+            LogHelper.WriteLog(LogType.BASE, "读取配置");
             if (readConfig != null && !string.IsNullOrEmpty(readConfig.ComPort))
             {
                 List<int> antennas = new List<int>();
@@ -34,6 +36,7 @@ namespace JT100.Wish.Component
                 {
                     antennas.Add(4);
                 }
+                LogHelper.WriteLog(LogType.BASE, "初始化读写器");
                 UserContext.RfidReadProvider.InitializeCom(readConfig.ComPort, readConfig.Baudrate, antennas);
             }
         }

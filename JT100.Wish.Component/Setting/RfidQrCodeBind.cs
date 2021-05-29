@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -47,20 +48,31 @@ namespace JT100.Wish.Component
             if (e.Key == System.Windows.Input.Key.Enter)
             {
                 var qrCode = _txtQrCode.Text;
-                if (!string.IsNullOrEmpty(qrCode) && !string.IsNullOrEmpty(lastRfid))
+                var urlParams= qrCode.Split('?');
+                if (urlParams.Length > 1)
                 {
-                    _txtQrCode.SelectAll();
-                    var result = await Task.Run(() => UserContext.ApiHelper.BindWareSNCode(lastRfid, qrCode));
-                    if (result.Success)
+                    var ps = urlParams[1].Split('&');
+                    var sn = ps.FirstOrDefault(_ => _.StartsWith("sncode="));
+                    if (!string.IsNullOrEmpty(sn))
                     {
-                        var vm = new QrCodeBindVM();
-                        vm.Index = (DataSource.Count + 1).ToString();
-                        vm.SN = lastRfid;
-                        vm.QrCode = qrCode;
-                        lastRfid = null;
-                        _txtQrCode.Text = string.Empty;
+                        sn = sn.Replace("sncode=", "");
+                        if (!string.IsNullOrEmpty(qrCode) && !string.IsNullOrEmpty(lastRfid))
+                        {
+                            var result = await Task.Run(() => UserContext.ApiHelper.BindWareSNCode(lastRfid, sn));
+                            if (result.Success)
+                            {
+                                var vm = new QrCodeBindVM();
+                                vm.Index = (DataSource.Count + 1).ToString();
+                                vm.SN = lastRfid;
+                                vm.QrCode = qrCode;
+                                DataSource.Add(vm);
+                                lastRfid = null;
+                                _txtQrCode.Text = string.Empty;
+                            }
+                        }
                     }
                 }
+                _txtQrCode.SelectAll();
             }
         }
 

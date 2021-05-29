@@ -19,7 +19,8 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ListBoxItem">
-                        <Border Height="80" BorderThickness="0,0,0,1"
+                        <Border Height="80"
+                                BorderThickness="0,0,0,1"
                                 BorderBrush="#0B233E"
                                 Cursor="Hand">
                             <StackPanel Orientation="Horizontal"
@@ -33,7 +34,7 @@
                                       Fill="White"
                                       Stretch="Fill"
                                       VerticalAlignment="Center"
-                                      Visibility="Collapsed"/>
+                                      Visibility="Collapsed" />
                             </StackPanel>
                         </Border>
                         <ControlTemplate.Triggers>
@@ -88,11 +89,31 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Border Grid.ColumnSpan="2"
-                Background="#162c46"
+        <Border Background="#162c46"
                 Height="60">
+            <Image Source="Logo.png" />
         </Border>
-        <Border Grid.Row="1" Grid.Column="0" BorderThickness="0">
+        <Border Grid.Column="1"
+                Background="#162c46">
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right">
+                <Button Width="32"
+                        Height="32"
+                        Background="Transparent"
+                        Content="□"
+                        FontSize="20"
+                        Foreground="White"
+                        BorderBrush="Transparent"
+                        Margin="0,0,5,0"
+                        Click="Max_Click">
+                </Button>
+                <Button Width="32" Height="32" Background="Transparent" Content="×" FontSize="20" Foreground="White" BorderBrush="Transparent" Margin="0,0,5,0" Click="Close_Click">
+                </Button>
+            </StackPanel>
+        </Border>
+        <Border Grid.Row="1"
+                Grid.Column="0"
+                BorderThickness="0">
             <ListBox Width="120"
                      x:Name="Part_Menu"
                      Style="{DynamicResource MenuListStyle}"
@@ -102,13 +123,15 @@
                     <DataTemplate>
                         <TextBlock Text="{Binding Name}"
                                    Width="98"
-                                   Margin="10,0,0,0" 
-                                   FocusVisualStyle="{x:Null}"/>
+                                   Margin="10,0,0,0"
+                                   FocusVisualStyle="{x:Null}" />
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
         </Border>
-        <Border Grid.Row="1" Margin="10" Grid.Column="1"
+        <Border Grid.Row="1"
+                Margin="10"
+                Grid.Column="1"
                 BorderBrush="#D6D6D6"
                 BorderThickness="1">
             <ContentControl x:Name="Part_Content" />

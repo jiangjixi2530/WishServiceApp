@@ -76,6 +76,27 @@ namespace JT100.Wish.Client
             Part_Content.Content = control;
         }
 
+        private void Max_Click(object sender, RoutedEventArgs e)
+        {
+            if(WindowState== WindowState.Maximized)
+            {
+                WindowState = WindowState.Normal;
+            }
+            else
+            {
+                this.WindowState = WindowState.Maximized;
+            }
+            
+        }
+
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+            var result = MessageBox.Show("确定退出系统", "操作提示", MessageBoxButton.YesNo, MessageBoxImage.Information);
+            if(result== MessageBoxResult.Yes)
+            {
+                Environment.Exit(0);
+            }
+        }
     }
     public class MenuItemModel : ViewModelBase
     {

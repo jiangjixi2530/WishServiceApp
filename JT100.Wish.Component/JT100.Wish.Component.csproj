@@ -9,6 +9,11 @@
     <OutputPath>..\JT100.Wish.Client\bin\Debug\</OutputPath>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Remove="Common\Models\SysConfig.cs~RF2304225c.TMP" />
     <None Remove="Custom\WishCustom.cs~RF233b26a6.TMP" />
