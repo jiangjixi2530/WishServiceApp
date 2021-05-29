@@ -36,8 +36,15 @@ namespace JT100.Wish.Component
                 {
                     antennas.Add(4);
                 }
-                LogHelper.WriteLog(LogType.BASE, "初始化读写器");
-                UserContext.RfidReadProvider.InitializeCom(readConfig.ComPort, readConfig.Baudrate, antennas);
+                LogHelper.WriteLog(LogType.BASE, "串口号：" + readConfig.ComPort);
+                try
+                {
+                    RfidReadProvider.InitializeCom(readConfig.ComPort, readConfig.Baudrate, antennas);
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog(LogType.BASE, ex.Message);
+                }
             }
         }
         /// <summary>

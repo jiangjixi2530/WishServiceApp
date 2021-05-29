@@ -90,13 +90,25 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Border Background="#162c46"
-                Height="60">
+                Height="60"
+                BorderThickness="0,0,1,1"
+                BorderBrush="#0B233E">
             <Image Source="Logo.png" />
         </Border>
         <Border Grid.Column="1"
                 Background="#162c46">
             <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Right">
+                <Button Width="32"
+                        Height="32"
+                        Background="Transparent"
+                        Content="-"
+                        FontSize="20"
+                        Foreground="White"
+                        BorderBrush="Transparent"
+                        Margin="0,0,5,0"
+                        Click="Min_Click">
+                </Button>
                 <Button Width="32"
                         Height="32"
                         Background="Transparent"

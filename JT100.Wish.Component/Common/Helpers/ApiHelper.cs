@@ -255,7 +255,7 @@ namespace JT100.Wish.Component
         /// <param name="sn"></param>
         /// <param name="qrCode"></param>
         /// <returns></returns>
-        public ApiResult<string> BindWareSNCode(string sn,string qrCode)
+        public ApiResult<string> BindWareSNCode(string sn, string qrCode)
         {
             try
             {
@@ -269,6 +269,30 @@ namespace JT100.Wish.Component
             {
                 return ApiResult<string>.ToFail(ex.Message);
             }
+        }
+
+        /// <summary>
+        /// 获取所有商品信息
+        /// </summary>
+        /// <returns></returns>
+        public List<WareInfo> GetAllWareInfo()
+        {
+            try
+            {
+                Dictionary<string, object> dict = new Dictionary<string, object>();
+                dict.Add("token", Token);
+                dict.Add("page", 1);
+                dict.Add("pageSize", 10000);
+                var result = ApiManager.HttpGet<PageModel<WareInfo>>(ServerUrl + "/api/Ware/Get", dict);
+                if (result.Success)
+                {
+                    return result.Response.Data;
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            return new List<WareInfo>();
         }
     }
 }

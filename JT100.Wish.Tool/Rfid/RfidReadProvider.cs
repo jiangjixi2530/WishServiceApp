@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JT100.Wish.Core;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Runtime.CompilerServices;
@@ -57,12 +58,15 @@ namespace JT100.Wish.Tool
         /// <returns></returns>
         public bool ConnectByCom(string port, int baudrate = 115200)
         {
+            LogHelper.WriteLog(LogType.BASE, "初始化串口");
             if (string.IsNullOrEmpty(port))
             {
+                LogHelper.WriteLog(LogType.BASE, "无串口号");
                 throw new ArgumentNullException("Port is null");
             }
             if (baudrate <= 0)
             {
+                LogHelper.WriteLog(LogType.BASE, "波特率小于0");
                 throw new ArgumentNullException("Baudrate not available");
             }
             string outExceptionStr;
@@ -71,10 +75,12 @@ namespace JT100.Wish.Tool
                 int ret = reader.OpenCom(port, baudrate, out outExceptionStr);
                 if (ret == 0)
                 {
+                    LogHelper.WriteLog(LogType.BASE, "初始化成功");
                     reader.GetFrequencyRegion(curSetting.btReadId);
                     Thread.Sleep(5);
                     return true;
                 }
+                LogHelper.WriteLog(LogType.BASE, "初始化失败");
             }
             catch (Exception)
             {

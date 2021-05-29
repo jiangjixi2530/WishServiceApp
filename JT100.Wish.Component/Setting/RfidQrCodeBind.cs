@@ -26,6 +26,14 @@ namespace JT100.Wish.Component
         }
 
         public readonly static DependencyProperty DataSourceProperty = DependencyProperty.Register("DataSource", typeof(ObservableCollection<QrCodeBindVM>), typeof(RfidQrCodeBind));
+
+        public int SelectedIndex
+        {
+            get { return (int)GetValue(SelectedIndexProperty); }
+            set { SetValue(SelectedIndexProperty, value); }
+        }
+
+        public readonly static DependencyProperty SelectedIndexProperty = DependencyProperty.Register("SelectedIndex", typeof(int), typeof(RfidQrCodeBind));
         static RfidQrCodeBind()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(RfidQrCodeBind), new FrameworkPropertyMetadata(typeof(RfidQrCodeBind)));
@@ -48,7 +56,7 @@ namespace JT100.Wish.Component
             if (e.Key == System.Windows.Input.Key.Enter)
             {
                 var qrCode = _txtQrCode.Text;
-                var urlParams= qrCode.Split('?');
+                var urlParams = qrCode.Split('?');
                 if (urlParams.Length > 1)
                 {
                     var ps = urlParams[1].Split('&');
@@ -61,11 +69,20 @@ namespace JT100.Wish.Component
                             var result = await Task.Run(() => UserContext.ApiHelper.BindWareSNCode(lastRfid, sn));
                             if (result.Success)
                             {
-                                var vm = new QrCodeBindVM();
-                                vm.Index = (DataSource.Count + 1).ToString();
-                                vm.SN = lastRfid;
-                                vm.QrCode = qrCode;
-                                DataSource.Add(vm);
+                                var existsVM = DataSource.FirstOrDefault(_ => _.SN == lastRfid);
+                                if (existsVM != null)
+                                {
+                                    existsVM.QrCode = qrCode;
+                                }
+                                else
+                                {
+                                    var vm = new QrCodeBindVM();
+                                    vm.Index = (DataSource.Count + 1).ToString();
+                                    vm.SN = lastRfid;
+                                    vm.QrCode = qrCode;
+                                    DataSource.Add(vm);
+                                    SelectedIndex = DataSource.Count - 1;
+                                }
                                 lastRfid = null;
                                 _txtQrCode.Text = string.Empty;
                             }
@@ -74,6 +91,11 @@ namespace JT100.Wish.Component
                 }
                 _txtQrCode.SelectAll();
             }
+        }
+
+        private async void BindRfid()
+        {
+
         }
 
         private void RfidReadProvider_OnDataReceived(object o, string epc)

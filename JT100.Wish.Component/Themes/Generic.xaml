@@ -6,6 +6,7 @@
         <ResourceDictionary Source="pack://application:,,,/JT100.Wish.Component;component/Themes/RfidReadSet.xaml" />
         <ResourceDictionary Source="pack://application:,,,/JT100.Wish.Component;component/Themes/OrderCheckView.xaml" />
         <ResourceDictionary Source="pack://application:,,,/JT100.Wish.Component;component/Themes/WishCustom.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/JT100.Wish.Component;component/Themes/RfidQrCodeBind.xaml" /> 
+        <ResourceDictionary Source="pack://application:,,,/JT100.Wish.Component;component/Themes/RfidQrCodeBind.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/JT100.Wish.Component;component/Themes/RfidBindList.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
