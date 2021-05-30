@@ -20,7 +20,7 @@
                                     Height="40">
                             <TextBlock Text="Rfid:"
                                        FontSize="16"
-                                       VerticalAlignment="Center"/>
+                                       VerticalAlignment="Center" />
                             <TextBlock x:Name="Txt_Rfid"
                                        FontSize="16"
                                        HorizontalAlignment="Left"
@@ -37,9 +37,13 @@
                                      Width="400"
                                      VerticalAlignment="Center"
                                      TextAlignment="Left" />
-                            <Button Content="手动输入模式" Height="30" HorizontalAlignment="Right" Margin="40,0"/>
+                            <Button Content="手动输入模式"
+                                    Height="30"
+                                    HorizontalAlignment="Right"
+                                    Margin="40,0" />
                         </StackPanel>
-                        <DataGrid AutoGenerateColumns="False"
+                        <DataGrid x:Name="Part_DataGrid"
+                                  AutoGenerateColumns="False"
                                   CanUserAddRows="False"
                                   CanUserDeleteRows="False"
                                   ColumnWidth="*"

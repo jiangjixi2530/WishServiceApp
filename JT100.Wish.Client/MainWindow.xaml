@@ -9,6 +9,7 @@
         WindowStartupLocation="CenterScreen"
         Title="共享布草服务系统"
         ResizeMode="NoResize"
+        WindowState="Maximized"
         Height="768"
         Width="1366">
     <Window.Resources>

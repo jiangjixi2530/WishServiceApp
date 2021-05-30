@@ -272,18 +272,20 @@ namespace JT100.Wish.Component
         }
 
         /// <summary>
-        /// 获取所有商品信息
+        /// 根据绑定时间查询商品
         /// </summary>
         /// <returns></returns>
-        public List<WareInfo> GetAllWareInfo()
+        public List<WareInfo> GetWareInfoByBindTime(DateTime startTime, DateTime endTime)
         {
             try
             {
                 Dictionary<string, object> dict = new Dictionary<string, object>();
                 dict.Add("token", Token);
+                dict.Add("startTime", startTime);
+                dict.Add("endTime", endTime);
                 dict.Add("page", 1);
                 dict.Add("pageSize", 10000);
-                var result = ApiManager.HttpGet<PageModel<WareInfo>>(ServerUrl + "/api/Ware/Get", dict);
+                var result = ApiManager.HttpGet<PageModel<WareInfo>>(ServerUrl + "/api/Ware/GetByBindTime", dict);
                 if (result.Success)
                 {
                     return result.Response.Data;
@@ -293,6 +295,30 @@ namespace JT100.Wish.Component
             {
             }
             return new List<WareInfo>();
+        }
+
+        /// <summary>
+        /// 查询所有的物料类型
+        /// </summary>
+        /// <returns></returns>
+        public List<WareType> GetWareType()
+        {
+            try
+            {
+                Dictionary<string, object> dict = new Dictionary<string, object>();
+                dict.Add("token", Token);
+                dict.Add("page", 1);
+                dict.Add("pageSize", 100);
+                var result = ApiManager.HttpGet<PageModel<WareType>>(ServerUrl + "/api/WareType/Get", dict);
+                if (result.Success)
+                {
+                    return result.Response.Data;
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            return new List<WareType>();
         }
     }
 }

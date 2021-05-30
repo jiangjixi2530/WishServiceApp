@@ -18,6 +18,7 @@ namespace JT100.Wish.Component
     {
         private TextBlock _txtRfid;
         private TextBox _txtQrCode;
+        private DataGrid _dataGrid;
         private string lastRfid;
         public ObservableCollection<QrCodeBindVM> DataSource
         {
@@ -47,6 +48,7 @@ namespace JT100.Wish.Component
             base.OnApplyTemplate();
             _txtRfid = VisualTreeProvider.FindFirstChild<TextBlock>(this, "Txt_Rfid");
             _txtQrCode = VisualTreeProvider.FindFirstChild<TextBox>(this, "Txt_QrCode");
+            _dataGrid = VisualTreeProvider.FindFirstChild<DataGrid>(this, "Part_DataGrid");
             _txtQrCode.KeyUp += TxtQrCode_KeyUp;
             UserContext.RfidReadProvider.OnDataReceived += RfidReadProvider_OnDataReceived;
         }
@@ -79,9 +81,10 @@ namespace JT100.Wish.Component
                                     var vm = new QrCodeBindVM();
                                     vm.Index = (DataSource.Count + 1).ToString();
                                     vm.SN = lastRfid;
-                                    vm.QrCode = qrCode;
+                                    vm.QrCode = sn;
                                     DataSource.Add(vm);
                                     SelectedIndex = DataSource.Count - 1;
+                                    _dataGrid.ScrollIntoView(_dataGrid.SelectedItem);
                                 }
                                 lastRfid = null;
                                 _txtQrCode.Text = string.Empty;

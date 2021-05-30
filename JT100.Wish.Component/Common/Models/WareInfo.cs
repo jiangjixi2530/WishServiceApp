@@ -78,5 +78,6 @@ namespace JT100.Wish.Component
         /// 批次编号
         /// </summary>
         public string GroupNo { get; set; }
+        public DateTime? BindTime { get; set; }
     }
 }
