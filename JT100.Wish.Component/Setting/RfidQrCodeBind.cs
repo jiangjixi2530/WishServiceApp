@@ -58,6 +58,13 @@ namespace JT100.Wish.Component
             if (e.Key == System.Windows.Input.Key.Enter)
             {
                 var qrCode = _txtQrCode.Text;
+                var rfid = _txtRfid.Text;
+                if (rfid == lastRfid)
+                {
+                    _txtQrCode.SelectAll();
+                    return;
+                }
+                lastRfid = rfid;
                 var urlParams = qrCode.Split('?');
                 if (urlParams.Length > 1)
                 {
@@ -74,7 +81,7 @@ namespace JT100.Wish.Component
                                 var existsVM = DataSource.FirstOrDefault(_ => _.SN == lastRfid);
                                 if (existsVM != null)
                                 {
-                                    existsVM.QrCode = qrCode;
+                                    existsVM.QrCode = sn;
                                 }
                                 else
                                 {
@@ -109,7 +116,6 @@ namespace JT100.Wish.Component
             }
             this.Dispatcher.BeginInvoke((System.Threading.ThreadStart)delegate ()
             {
-                lastRfid = epc;
                 _txtRfid.Text = epc;
                 Thread.Sleep(10);
             }, System.Windows.Threading.DispatcherPriority.ApplicationIdle);

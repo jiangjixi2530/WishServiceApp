@@ -61,12 +61,12 @@ namespace JT100.Wish.Component
         {
             base.OnApplyTemplate();
             InitOrderSource();
-            UserContext.RfidReadProvider.OnDataReceived += RfidReadProvider_OnDataReceived;
             Task.Run(() => DealRfid());
         }
 
         private async void InitOrderSource()
         {
+            UserContext.RfidReadProvider.OnDataReceived -= RfidReadProvider_OnDataReceived;
             lock (lockObj)
             {
                 OrderEPC.Clear();
@@ -82,6 +82,7 @@ namespace JT100.Wish.Component
                 OrderEPC = OrderEPC.Concat(orderVm.OrderDetailRfids).ToList();
                 OrderSource.Add(orderVm);
             }
+            UserContext.RfidReadProvider.OnDataReceived += RfidReadProvider_OnDataReceived;
         }
 
 

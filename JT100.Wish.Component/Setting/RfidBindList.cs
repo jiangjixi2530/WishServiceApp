@@ -192,6 +192,12 @@ namespace JT100.Wish.Component
                 vm.WareCode = wareInfos[i].WareCode;
                 vm.BindTime = wareInfos[i].BindTime.Value.ToString("yyyy-MM-dd HH:mm:ss");
                 vm.Index = ++i;
+                var exists = DataSource.FirstOrDefault(_ => _.RFID == vm.RFID);
+                if (exists != null)
+                {
+                    vm.IsSame = true;
+                    exists.IsSame = true;
+                }
                 DataSource.Add(vm);
             }
             TotalCount = "总数量：" + DataSource.Count;
@@ -251,6 +257,12 @@ namespace JT100.Wish.Component
         {
             get { return GetValue(() => BindTime); }
             set { SetValue(() => BindTime, value); }
+        }
+
+        public bool IsSame
+        {
+            get { return GetValue(() => IsSame); }
+            set { SetValue(() => IsSame, value); }
         }
     }
 }

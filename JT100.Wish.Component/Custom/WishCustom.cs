@@ -17,6 +17,7 @@ namespace JT100.Wish.Component
     /// </summary>
     public class WishCustom : BaseControl
     {
+        private Dictionary<string, string> cacheWareInfos;
         private List<string> Rfids = new List<string>();
         private List<CustomModel> Customs { get; set; }
         DataGrid _dataGrid;
@@ -90,12 +91,16 @@ namespace JT100.Wish.Component
         public ICommand CreateOutOrder { get; set; }
 
         public ICommand MatchWareType { get; set; }
+
+        public ICommand ClearCommand { get; set; }
+        public ICommand SaveCommand { get; set; }
         static WishCustom()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(WishCustom), new FrameworkPropertyMetadata(typeof(WishCustom)));
         }
         public WishCustom()
         {
+            cacheWareInfos = new Dictionary<string, string>();
             CustomSource = new ObservableCollection<CustomViewModel>();
             TransferWare = new RelayCommand<int>((customId) =>
             {
@@ -120,6 +125,15 @@ namespace JT100.Wish.Component
             MatchWareType = new RelayCommand(() =>
             {
                 MatchWare();
+            });
+            ClearCommand = new RelayCommand(() =>
+            {
+                Rfids.Clear();
+                TotalCount = Rfids.Count;
+            });
+            SaveCommand = new RelayCommand(() =>
+            {
+                SaveInfo();
             });
         }
         public override void OnApplyTemplate()
@@ -231,6 +245,25 @@ namespace JT100.Wish.Component
             {
                 MessageBox.Show("出库失败，" + result.Msg);
                 UserContext.RfidReadProvider.OnDataReceived += RfidReadProvider_OnDataReceived;
+            }
+        }
+
+        private async void SaveInfo()
+        {
+            UserContext.RfidReadProvider.OnDataReceived -= RfidReadProvider_OnDataReceived;
+            int totalCount = 0;
+            foreach (var ware in WareOutDetailSource)
+            {
+                totalCount += ware.RfidCount;
+            }
+            if (totalCount != Rfids.Count)
+            {
+                MessageBox.Show("匹配数量与总数量不一致，请重新匹配");
+                return;
+            }
+            if (Rfids.Count > 0)
+            {
+
             }
         }
         public override void Dispose()

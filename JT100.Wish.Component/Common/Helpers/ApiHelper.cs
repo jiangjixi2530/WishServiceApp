@@ -320,5 +320,54 @@ namespace JT100.Wish.Component
             }
             return new List<WareType>();
         }
+
+        public List<WareInfo> GetWareInfoBySNs(List<string> sns)
+        {
+            try
+            {
+                JObject jObject = new JObject();
+                jObject["token"] = Token;
+                JArray jArray = new JArray();
+                foreach (var sn in sns)
+                {
+                    jArray.Add(sn);
+                }
+                jObject["wareSNCodes"] = jArray;
+                var result = ApiManager.HttpPost<List<WareInfo>>(ServerUrl + "/api/Ware/GetBySNs", JsonConvert.SerializeObject(jObject));
+                if (result.Success)
+                {
+                    return result.Response;
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            return new List<WareInfo>();
+        }
+
+        public bool CheckOutOrder(string orderNum,List<string> sns)
+        {
+            try
+            {
+                JObject jObject = new JObject();
+                jObject["token"] = Token;
+                JArray jArray = new JArray();
+                foreach (var sn in sns)
+                {
+                    jArray.Add(sn);
+                }
+                jObject["wareSNcodes"] = jArray;
+                jObject["orderNo"] = orderNum;
+                var result = ApiManager.HttpPost<bool>(ServerUrl + "/api/OutOrder/FinishOutOrder", JsonConvert.SerializeObject(jObject));
+                if (result.Success)
+                {
+                    return result.Response;
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            return false;
+        }
     }
 }

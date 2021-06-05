@@ -56,7 +56,7 @@
                                       SelectedItem="{Binding WareType ,RelativeSource={RelativeSource AncestorType=local:RfidBindList}}"
                                       VerticalAlignment="Center"
                                       HorizontalAlignment="Left"
-                                      Width="200"/>
+                                      Width="200" />
                             <Button Margin="10,0"
                                     Content="查询"
                                     VerticalAlignment="Center"
@@ -70,7 +70,7 @@
                                   CanUserAddRows="False"
                                   CanUserDeleteRows="False"
                                   ColumnWidth="*"
-                                  FontSize="16"
+                                  FontSize="20"
                                   Grid.Row="1"
                                   Grid.ColumnSpan="2"
                                   HeadersVisibility="All"
@@ -87,15 +87,30 @@
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding WareType}" />
+                                            <DataTemplate.Triggers>
+                                                <DataTrigger Binding="{Binding IsSame}"
+                                                             Value="true">
+                                                    <Setter Property="TextBlock.Foreground"
+                                                            Value="Red" />
+                                                </DataTrigger>
+                                            </DataTemplate.Triggers>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
                                 <DataGridTemplateColumn Header="芯片序号"
-                                                        CanUserSort="False"
+                                                        SortMemberPath="RFID"
+                                                        CanUserSort="True"
                                                         CanUserResize="False">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding RFID}" />
+                                            <DataTemplate.Triggers>
+                                                <DataTrigger Binding="{Binding IsSame}"
+                                                             Value="true">
+                                                    <Setter Property="TextBlock.Foreground"
+                                                            Value="Red" />
+                                                </DataTrigger>
+                                            </DataTemplate.Triggers>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -106,6 +121,13 @@
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding WareCode}" />
+                                            <DataTemplate.Triggers>
+                                                <DataTrigger Binding="{Binding IsSame}"
+                                                             Value="true">
+                                                    <Setter Property="TextBlock.Foreground"
+                                                            Value="Red" />
+                                                </DataTrigger>
+                                            </DataTemplate.Triggers>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -116,6 +138,13 @@
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding BindTime}" />
+                                            <DataTemplate.Triggers>
+                                                <DataTrigger Binding="{Binding IsSame}"
+                                                             Value="true">
+                                                    <Setter Property="TextBlock.Foreground"
+                                                            Value="Red" />
+                                                </DataTrigger>
+                                            </DataTemplate.Triggers>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
