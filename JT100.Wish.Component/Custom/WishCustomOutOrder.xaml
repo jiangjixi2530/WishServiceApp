@@ -104,7 +104,51 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="查询"
+                                        CanUserSort="False"
+                                        CanUserResize="False">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="详情"
+                                        Command="{Binding ShowDetailCommand,RelativeSource={RelativeSource AncestorType=local:WishCustomOutOrder}}"
+                                        CommandParameter="{Binding}"
+                                        Margin="0,0" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
+        <Popup IsOpen="{Binding ShowDetail,RelativeSource={RelativeSource AncestorType={x:Type local:WishCustomOutOrder}}}"
+               PlacementTarget="{Binding}">
+            <Border>
+                <ItemsControl Grid.Column="1"
+                              ItemsSource="{Binding OrderDetails,RelativeSource={RelativeSource AncestorType={x:Type local:WishCustomOutOrder}}}"
+                              Margin="0,0">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Grid.Column="1"
+                                    BorderThickness="1,0,1,0"
+                                    BorderBrush="Green">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Margin="20,0"
+                                               Text="{Binding WareName}"
+                                               VerticalAlignment="Center" />
+                                    <TextBlock Margin="5,0"
+                                               Text="{Binding Count}"
+                                               VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid  Columns="6" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </Border>
+        </Popup>
     </Grid>
 </Window>

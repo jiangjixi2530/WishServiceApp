@@ -38,7 +38,7 @@ namespace JT100.Wish.Client
             MenuItemSource = new ObservableCollection<MenuItemModel>();
             Activated += MainWindow_Activated;
             //MenuItemSource.Add(new MenuItemModel { Name = "RFID绑定", DllName = "JT100.Wish.Component.dll", ClassFullName = "JT100.Wish.Component.RfidBinding" });
-            MenuItemSource.Add(new MenuItemModel { Name = "出库单", DllName = "JT100.Wish.Component", ClassFullName = "JT100.Wish.Component.WishCustom" });
+            MenuItemSource.Add(new MenuItemModel { Name = "出库单", DllName = "JT100.Wish.Component", ClassFullName = "JT100.Wish.Component.OutOrderView" });
             MenuItemSource.Add(new MenuItemModel { Name = "入库单清点", DllName = "JT100.Wish.Component", ClassFullName = "JT100.Wish.Component.OrderCheckView" });
             MenuItemSource.Add(new MenuItemModel { Name = "二维码绑定", DllName = "JT100.Wish.Component", ClassFullName = "JT100.Wish.Component.RfidQrCodeBind" });
             MenuItemSource.Add(new MenuItemModel { Name = "商品绑定统计", DllName = "JT100.Wish.Component", ClassFullName = "JT100.Wish.Component.RfidBindList" });

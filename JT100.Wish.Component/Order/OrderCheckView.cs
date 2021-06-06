@@ -37,6 +37,8 @@ namespace JT100.Wish.Component
         public ICommand RefreshCommand { get; set; }
         public ICommand SubmitCommand { get; set; }
 
+        public ICommand CheckCommand { get; set; }
+
         static OrderCheckView()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(OrderCheckView), new FrameworkPropertyMetadata(typeof(OrderCheckView)));
@@ -55,6 +57,10 @@ namespace JT100.Wish.Component
             SubmitCommand = new RelayCommand(() =>
               {
                   CheckOrder();
+              });
+            CheckCommand = new RelayCommand<OrderVM>((order) =>
+              {
+                  CheckOrder(order);
               });
         }
         public override void OnApplyTemplate()
@@ -215,6 +221,39 @@ namespace JT100.Wish.Component
                 {
                     order.CheckInfo = "清点完成";
                 }
+            }
+        }
+
+        private async void CheckOrder(OrderVM order)
+        {
+            if (MessageBox.Show("确认直接二次清点吗？", "提示", MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+            {
+                return;
+            }
+            try
+            {
+                ApiResult<string> result = new ApiResult<string>();
+                if (order.InType == "反洗入库")
+                {
+                    result = await Task.Run(() => UserContext.ApiHelper.CheckRewashOrder(order.OrderNum, order.OrderDetailRfids));
+                }
+                else
+                {
+                    result = await Task.Run(() => UserContext.ApiHelper.CheckInOrder(order.OrderNum, order.OrderDetailRfids));
+                }
+                if (result.Success)
+                {
+                    MessageBox.Show("清点成功");
+                    InitOrderSource();
+                }
+                else
+                {
+                    MessageBox.Show("清点失败");
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteErrorLog(LogType.BASE, ex);
             }
         }
 

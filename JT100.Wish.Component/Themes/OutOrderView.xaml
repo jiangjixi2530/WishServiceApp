@@ -1,5 +1,353 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:JT100.Wish.Component">
-    
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/JT100.Wish.Component;component/CommonStyle/Generic.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    <local:BoolToVisiblity x:Key="BoolToVisiblity" />
+    <local:ReverseBoolToVisiblity x:Key="ReverseBoolToVisiblity" />
+    <Style TargetType="{x:Type local:OutOrderView}">
+        <Setter Property="FontSize"
+                Value="20" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:OutOrderView}">
+                    <Grid>
+                        <Grid Visibility="{Binding ShowCustomList,RelativeSource={RelativeSource AncestorType={x:Type local:OutOrderView}},Converter={StaticResource BoolToVisiblity}}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Border BorderBrush="#D6D6D6"
+                                    BorderThickness="0,0,0,1">
+                                <StackPanel Orientation="Horizontal"
+                                            Height="40">
+                                    <TextBlock Text="酒店名称:"
+                                               HorizontalAlignment="Right"
+                                               VerticalAlignment="Center"
+                                               Margin="20,0" />
+                                    <TextBox Width="200"
+                                             VerticalAlignment="Center"
+                                             VerticalContentAlignment="Center"
+                                             Margin="10,0"
+                                             Height="30" />
+                                    <Button Content="查询"
+                                            Width="100"
+                                            VerticalAlignment="Center"
+                                            Margin="10,0"
+                                            Height="30" />
+                                </StackPanel>
+                            </Border>
+                            <DataGrid x:Name="Part_DataGrid"
+                                      Grid.Row="1"
+                                      AutoGenerateColumns="False"
+                                      CanUserAddRows="False"
+                                      CanUserDeleteRows="False"
+                                      ColumnWidth="*"
+                                      FontSize="20"
+                                      RowHeight="30"
+                                      HeadersVisibility="Column"
+                                      GridLinesVisibility="All"
+                                      HorizontalGridLinesBrush="#EEEEEE"
+                                      VerticalGridLinesBrush="#EEEEEE"
+                                      SelectionUnit="FullRow"
+                                      SelectionMode="Single"
+                                      ItemsSource="{Binding CustomSource,RelativeSource={RelativeSource AncestorType=local:OutOrderView}}">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Header="序号"
+                                                            Width="80"
+                                                            CanUserSort="False"
+                                                            CanUserResize="False">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Index}"
+                                                           HorizontalAlignment="Left"
+                                                           VerticalAlignment="Center" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="客户名称"
+                                                            CanUserSort="False"
+                                                            CanUserResize="False">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding CustomName}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="酒店名称"
+                                                            CanUserSort="False"
+                                                            CanUserResize="False">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding StoreName}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="酒店地址"
+                                                            CanUserSort="False"
+                                                            CanUserResize="False">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Address}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="操作"
+                                                            CanUserSort="False"
+                                                            CanUserResize="False">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Button Content="新增出库单"
+                                                            Command="{Binding TransferWare,RelativeSource={RelativeSource AncestorType=local:OutOrderView}}"
+                                                            CommandParameter="{Binding Id}"
+                                                            Margin="0,0" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="查询"
+                                                            CanUserSort="False"
+                                                            CanUserResize="False">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Button Content="历史出库单"
+                                                            Command="{Binding ShowOutWareOrder,RelativeSource={RelativeSource AncestorType=local:OutOrderView}}"
+                                                            CommandParameter="{Binding}"
+                                                            Margin="0,0" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                        <Grid Grid.Row="1"
+                              Visibility="{Binding ShowCustomList,RelativeSource={RelativeSource AncestorType={x:Type local:OutOrderView}},Converter={StaticResource ReverseBoolToVisiblity}}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <StackPanel Orientation="Horizontal"
+                                        Height="40">
+                                <TextBlock Text="{Binding SelectedCustom.CustomName,RelativeSource={RelativeSource AncestorType={x:Type local:OutOrderView}}}"
+                                           FontSize="16"
+                                           VerticalAlignment="Center" />
+                                <TextBlock Margin="20,0"
+                                           Text="{Binding SelectedCustom.StoreName,RelativeSource={RelativeSource AncestorType={x:Type local:OutOrderView}}}"
+                                           FontSize="16"
+                                           VerticalAlignment="Center" />
+                                <TextBlock Margin="20,0"
+                                           Text="{Binding SelectedCustom.Address,RelativeSource={RelativeSource AncestorType={x:Type local:OutOrderView}}}"
+                                           FontSize="16"
+                                           VerticalAlignment="Center" />
+                                <TextBlock Margin="20,0"
+                                           Text="已识别总数量："
+                                           FontSize="16"
+                                           VerticalAlignment="Center" />
+                                <TextBlock Margin="0,0"
+                                           Text="{Binding TotalCount,RelativeSource={RelativeSource AncestorType={x:Type local:OutOrderView}}}"
+                                           FontSize="16"
+                                           VerticalAlignment="Center" />
+                                <Button Content="重新识别"
+                                        Margin="8,0"
+                                        VerticalAlignment="Center"
+                                        Command="{Binding StartRead,RelativeSource={RelativeSource AncestorType={x:Type local:OutOrderView}}}" />
+                                <Button Content="匹配物料类型"
+                                        Margin="20,0"
+                                        VerticalAlignment="Center"
+                                        Command="{Binding MatchWareType,RelativeSource={RelativeSource AncestorType={x:Type local:OutOrderView}}}" />
+                                <Button Content="临时保存"
+                                        Margin="8,0"
+                                        VerticalAlignment="Center"
+                                        Command="{Binding SaveMatchWare,RelativeSource={RelativeSource AncestorType={x:Type local:OutOrderView}}}" />
+                                <Button Content="生成出库单"
+                                        Margin="8,0"
+                                        VerticalAlignment="Center"
+                                        Command="{Binding CreateOutOrder,RelativeSource={RelativeSource AncestorType={x:Type local:OutOrderView}}}" />
+                            </StackPanel>
+                            <DataGrid AutoGenerateColumns="False"
+                                      CanUserAddRows="False"
+                                      CanUserDeleteRows="False"
+                                      ColumnWidth="*"
+                                      FontSize="26"
+                                      Grid.Row="1"
+                                      RowHeight="40"
+                                      IsReadOnly="True"
+                                      Grid.ColumnSpan="2"
+                                      HeadersVisibility="Column"
+                                      GridLinesVisibility="All"
+                                      SelectionMode="Single"
+                                      HorizontalGridLinesBrush="#EEEEEE"
+                                      VerticalGridLinesBrush="#EEEEEE"
+                                      SelectionUnit="FullRow"
+                                      ItemsSource="{Binding WareOutDetailSource,RelativeSource={RelativeSource AncestorType=local:OutOrderView}}">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Header="序号"
+                                                            Width="80"
+                                                            CanUserSort="False"
+                                                            CanUserResize="False">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Index}"
+                                                           HorizontalAlignment="Left"
+                                                           VerticalAlignment="Center" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="布草类型"
+                                                            CanUserSort="False"
+                                                            CanUserResize="False">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding WareTypeName}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="已匹配数量"
+                                                            CanUserSort="False"
+                                                            CanUserResize="False">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Foreground="Red"
+                                                           Text="{Binding RfidCount}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="阈值"
+                                                            CanUserSort="False"
+                                                            CanUserResize="False">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Capacity}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="库存基数"
+                                                            CanUserSort="False"
+                                                            CanUserResize="False">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Stock}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="最大可出库数量"
+                                                            CanUserSort="False"
+                                                            CanUserResize="False">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding MaxCount}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <!--<ListBox Grid.Row="2"
+                                     ItemsSource="{Binding WareOutDetailTypeSource,RelativeSource={RelativeSource AncestorType=local:OutOrderView}}"
+                                     HorizontalAlignment="Stretch"
+                                     SelectionMode="Extended"
+                                     ScrollViewer.VerticalScrollBarVisibility="Visible"
+                                     ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                                     VirtualizingPanel.IsVirtualizing="True">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border BorderThickness="0,0,0,1"
+                                                BorderBrush="#D6D6D6">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="*" />
+                                                </Grid.RowDefinitions>
+                                                <StackPanel Orientation="Horizontal"
+                                                            Height="30">
+                                                    <TextBlock Text="{Binding Name}"
+                                                               Margin="20,0" />
+                                                    <TextBlock Text="总数量："
+                                                               Margin="20,0" />
+                                                    <TextBlock Text="{Binding TotalCount}"
+                                                               Margin="8,0" />
+                                                </StackPanel>
+                                                <ItemsControl>
+                                                    <ItemsControl.ItemsPanel
+                                                </ItemsControl>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ListBox>-->
+                            <ScrollViewer Grid.Row="2"
+                                          CanContentScroll="True"
+                                          VerticalScrollBarVisibility="Auto"
+                                          HorizontalScrollBarVisibility="Hidden">
+                                <ItemsControl Margin="0,10,0,0"
+                                              ItemsSource="{Binding WareOutDetailTypeSource,RelativeSource={RelativeSource AncestorType={x:Type local:OutOrderView}}}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border BorderThickness="1,1,1,1"
+                                                    BorderBrush="Green">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <StackPanel Orientation="Horizontal"
+                                                                Height="40">
+                                                        <TextBlock Text="{Binding Name}"
+                                                                   FontWeight="Bold"
+                                                                   Margin="20,0"
+                                                                   VerticalAlignment="Center" />
+                                                        <TextBlock Text="{Binding TotalCount}"
+                                                                   FontWeight="Bold"
+                                                                   Margin="5,0"
+                                                                   VerticalAlignment="Center" />
+                                                    </StackPanel>
+                                                    <ItemsControl Grid.Column="1"
+                                                                  ItemsSource="{Binding Details}"
+                                                                  Margin="0,0">
+                                                        <ItemsControl.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <Border Grid.Column="1"
+                                                                        BorderThickness="1,0,1,0"
+                                                                        BorderBrush="Green">
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <TextBlock Margin="20,0"
+                                                                                   Text="{Binding WareTypeName}"
+                                                                                   VerticalAlignment="Center" />
+                                                                        <TextBlock Margin="5,0"
+                                                                                   Text="{Binding RfidCount}"
+                                                                                   VerticalAlignment="Center" />
+                                                                    </StackPanel>
+                                                                </Border>
+                                                            </DataTemplate>
+                                                        </ItemsControl.ItemTemplate>
+                                                        <ItemsControl.ItemsPanel>
+                                                            <ItemsPanelTemplate>
+                                                                <UniformGrid  Columns="6" />
+                                                            </ItemsPanelTemplate>
+                                                        </ItemsControl.ItemsPanel>
+                                                    </ItemsControl>
+                                                    <Button VerticalAlignment="Center"
+                                                            HorizontalAlignment="Right"
+                                                            Content="删除"
+                                                            Command="{Binding DeleteWareInfo,RelativeSource={RelativeSource AncestorType={x:Type local:OutOrderView}}}"
+                                                            CommandParameter="{Binding}"
+                                                            Grid.Column="2"
+                                                            Margin="0,0,10,0" />
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

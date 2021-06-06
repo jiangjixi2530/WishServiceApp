@@ -13,5 +13,13 @@ namespace JT100.Wish.Client
     /// </summary>
     public partial class App : Application
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+            //System.Diagnostics.ProcessStartInfo info = new System.Diagnostics.ProcessStartInfo("cmd.exe");
+            //info.FileName = @"c:\Login.bat";
+            //System.Diagnostics.Process proc = System.Diagnostics.Process.Start(info);
+            //proc.WaitForExit();
+        }
     }
 }

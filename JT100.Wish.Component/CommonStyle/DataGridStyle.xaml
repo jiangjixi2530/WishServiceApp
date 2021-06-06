@@ -133,7 +133,7 @@
         <Setter Property="VirtualizingPanel.IsVirtualizing"
                 Value="False" />
         <Setter Property="FontSize"
-                Value="16" />
+                Value="20" />
         <Setter Property="FrozenColumnCount"
                 Value="0" />
         <Setter Property="HeadersVisibility"
@@ -141,7 +141,7 @@
         <Setter Property="ColumnHeaderStyle"
                 Value="{StaticResource CommonDataGridColumHeader-Center}" />
         <Setter Property="MinRowHeight"
-                Value="30" />
+                Value="40" />
         <Setter Property="RenderOptions.ClearTypeHint"
                 Value="Enabled" />
         <Setter Property="ScrollViewer.IsDeferredScrollingEnabled"

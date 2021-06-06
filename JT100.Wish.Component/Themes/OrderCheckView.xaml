@@ -31,9 +31,10 @@
                                   CanUserAddRows="False"
                                   CanUserDeleteRows="False"
                                   ColumnWidth="*"
-                                  FontSize="16"
+                                  FontSize="20"
                                   Grid.Row="1"
                                   Grid.ColumnSpan="2"
+                                  RowHeight="40"
                                   HeadersVisibility="Column"
                                   GridLinesVisibility="All"
                                   HorizontalGridLinesBrush="#EEEEEE"
@@ -43,6 +44,7 @@
                                   ItemsSource="{Binding OrderSource,RelativeSource={RelativeSource AncestorType=local:OrderCheckView}}">
                             <DataGrid.Columns>
                                 <DataGridTemplateColumn Header="序号"
+                                                        Width="80"
                                                         CanUserSort="False"
                                                         CanUserResize="False">
                                     <DataGridTemplateColumn.CellTemplate>
@@ -113,6 +115,18 @@
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding CheckInfo}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="操作"
+                                                        CanUserSort="False"
+                                                        CanUserResize="False">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Content="直接清点"
+                                                    Command="{Binding CheckCommand,RelativeSource={RelativeSource AncestorType=local:OrderCheckView}}"
+                                                    CommandParameter="{Binding}"
+                                                    Margin="0,0" />
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>

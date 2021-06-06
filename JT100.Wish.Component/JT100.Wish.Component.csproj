@@ -7,6 +7,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\JT100.Wish.Client\bin\Debug\</OutputPath>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -15,8 +16,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Custom\WishCustom.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Common\Models\SysConfig.cs~RF2304225c.TMP" />
     <None Remove="Custom\WishCustom.cs~RF233b26a6.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Remove="Themes\WishCustom.xaml" />
   </ItemGroup>
 
   <ItemGroup>

@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Style x:Key="CommonButtonStyle"
            TargetType="Button">
-        <Setter Property="Background"
-                Value="" />
+        <!--<Setter Property="Background"
+                Value="" />-->
     </Style>
 </ResourceDictionary>
